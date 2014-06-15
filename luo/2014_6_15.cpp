@@ -51,10 +51,9 @@ void genSurface(int C2_NUM, int C6_NUM){
     for(i = 0; i < C6_NUM; i+=3){
         x = rand() % (WIDTH);
         y = rand() % (HEIGHT);
-        p = rand() % (12);
         t = rand() % (100);
 
-        while(1){
+        for(p = 0; p < 13; p++){
             if(x + C6_PATTERN[p][0] < 0 ||
                 x + C6_PATTERN[p][0] >= WIDTH ||
                 y + C6_PATTERN[p][1] < 0 ||
@@ -66,9 +65,9 @@ void genSurface(int C2_NUM, int C6_NUM){
                 if(!surface[x][y] &&
                 !surface[x + C6_PATTERN[p][0]][y + C6_PATTERN[p][1]] &&
                 !surface[x + C6_PATTERN[p][2]][y + C6_PATTERN[p][3]]){
-                    x = rand() % (WIDTH);
-                    y = rand() % (HEIGHT);
-                    p = rand() % (12);
+                    if(p == 12){
+                        i -= 3;
+                    }
                 }
             }else{
                 break;
