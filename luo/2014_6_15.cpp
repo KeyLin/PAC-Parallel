@@ -164,13 +164,14 @@ int main(int argc, char **argv) {
     // 随机数标记
     float r1;
     srand(time(NULL));
+    // 初始化C2 C6数量标记
+    C2_NUM = 0; C6_NUM = 0; EMPTY_NUM = SIZE;
 
     // 开始全局计时
     whole_start = clock();
     // 做10次实验每次做10000次反应
     for(temp_x = 0; temp_x < 10; temp_x++){
-        // 初始化C2 C6数量标记
-        C2_NUM = 0; C6_NUM = 0; EMPTY_NUM = SIZE;
+        
         // 开始局部计时
         start = clock();
         
