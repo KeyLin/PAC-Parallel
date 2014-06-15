@@ -62,7 +62,7 @@ void genSurface(int C2_NUM, int C6_NUM){
                 x + C6_PATTERN[p][2] < 0 ||
                 x + C6_PATTERN[p][2] >= WIDTH ||
                 y + C6_PATTERN[p][3] < 0 ||
-                y + C6_PATTERN[p][3] >= HEIGHT ||){
+                y + C6_PATTERN[p][3] >= HEIGHT){
                 if(!surface[x][y] &&
                 !surface[x + C6_PATTERN[p][0]][y + C6_PATTERN[p][1]] &&
                 !surface[x + C6_PATTERN[p][2]][y + C6_PATTERN[p][3]]){
