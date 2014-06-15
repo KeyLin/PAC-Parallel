@@ -55,15 +55,15 @@ void genSurface(int C2_NUM, int C6_NUM){
         t = rand() % (100);
 
         while(1){
-            if(x + C6_PATTERN[p][0] < 0 &&
-                x + C6_PATTERN[p][0] >= WIDTH &&
-                y + C6_PATTERN[p][1] < 0 &&
-                y + C6_PATTERN[p][1] >= HEIGHT &&
-                x + C6_PATTERN[p][2] < 0 &&
-                x + C6_PATTERN[p][2] >= WIDTH &&
-                y + C6_PATTERN[p][3] < 0 &&
-                y + C6_PATTERN[p][3] >= HEIGHT &&
-                !surface[x][y] &&
+            if(x + C6_PATTERN[p][0] < 0 ||
+                x + C6_PATTERN[p][0] >= WIDTH ||
+                y + C6_PATTERN[p][1] < 0 ||
+                y + C6_PATTERN[p][1] >= HEIGHT ||
+                x + C6_PATTERN[p][2] < 0 ||
+                x + C6_PATTERN[p][2] >= WIDTH ||
+                y + C6_PATTERN[p][3] < 0 ||
+                y + C6_PATTERN[p][3] >= HEIGHT ||)
+                if(!surface[x][y] &&
                 !surface[x + C6_PATTERN[p][0]][y + C6_PATTERN[p][1]] &&
                 !surface[x + C6_PATTERN[p][2]][y + C6_PATTERN[p][3]]){
                 x = rand() % (WIDTH);
@@ -168,13 +168,13 @@ int main(int argc, char **argv) {
     // 开始全局计时
     whole_start = clock();
     // 做10次实验每次做10000次反应
-    for(temp_x = 0; temp_x < 100; temp_x++){
+    for(temp_x = 0; temp_x < 10; temp_x++){
         // 初始化C2 C6数量标记
         C2_NUM = 0; C6_NUM = 0; EMPTY_NUM = SIZE;
         // 开始局部计时
         start = clock();
         
-        for(temp_y = 0; temp_y < 20000; temp_y++){
+        for(temp_y = 0; temp_y < 10000; temp_y++){
             // 计算当前反应速率
             AA = CALC_AA(EMPTY_NUM);
             BA = CALC_BA(EMPTY_NUM);
