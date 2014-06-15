@@ -108,7 +108,7 @@ int canC6_Adsorb(int C2_NUM, int C6_NUM){
     y = rand() % (HEIGHT);
     genSurface(C2_NUM, C6_NUM);
     
-    for(i = 0; i < 12; i++){
+    for(i = 0; i < 13; i++){
         if( (x + C6_PATTERN[i][0]) >=0 &&
             (x + C6_PATTERN[i][0]) < WIDTH &&
             (x + C6_PATTERN[i][2]) >= 0 && 
