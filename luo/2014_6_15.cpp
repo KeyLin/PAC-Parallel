@@ -4,6 +4,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
 using namespace std;
 
 // 矩阵大小100*100
