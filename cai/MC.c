@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <time.h>       /*使用当前时间作为随机数种子*/
 #include <math.h>
-#define m 100           /*方形网格行或列的网格数，代表吸附表面边长*/
-#define pp 10000       /*蒙特卡罗总时间 MCS，正比于真实时间*/
-#define a 1
-#define b 6
+#define m 50           /*方形网格行或列的网格数，代表吸附表面边长*/
+#define pp 100       /*蒙特卡罗总时间 MCS，正比于真实时间*/
+#define a 0.5
+#define b 0.05
 int main()
 {  /*定义变量*/
 	int x1,y1,x2,y2,x3,y3,x4,y4,coord[8],pc;
@@ -57,7 +57,7 @@ int main()
 			{
 				for(j=0;j<m;j++)
 				{
-					if(sol[i][j]>=l) l=l+1;
+					if(sol[i][j]==l) {l=l+1;i=0;}
 				}
 			}
 
@@ -82,6 +82,7 @@ int main()
 			/*1、吸附线性小分子烃 C2,以-1 表示*/
 			if(r1<=paa)
 			{
+				if( n1<1 ) continue;
 				do{
 					r2=rand()%(m*m)+1;
 					p=(r2-1)/m;
@@ -93,6 +94,7 @@ int main()
 			/*2、吸附小分子芳香烃 C6，以正整数表示*/
 			else if(r1<=paa+pba)
 			{
+				if( n1<3 ) continue;
 				do{
 					r2=rand()%(m*m)+1;
 					p=(r2-1)/m;q=(r2-1)%m;
@@ -136,6 +138,7 @@ int main()
 			/*3、线性小分子烃 C2 脱附*/
 			else if(r1<=paa+pba+pag)
 			{
+				if( n2<1 ) continue;
 				do{
 					r2=rand()%(m*m)+1;
 					p=(r2-1)/m;q=(r2-1)%m;
@@ -146,6 +149,7 @@ int main()
 			/*4、线性小分子烃 C2 沉积*/
 			else if(r1<=paa+pba+pag+pad)
 			{
+				if( n2<1 ) continue;
 				do{
 					r2=rand()%(m*m)+1;
 					p=(r2-1)/m;q=(r2-1)%m;
@@ -156,6 +160,7 @@ int main()
 			/*5、小分子芳香烃 C6 脱附*/
 			else if(r1<=paa+pba+pag+pad+pbg)
 			{
+				if( n3<3 ) continue;
 				do{
 					r2=rand()%(m*m)+1;
 					p=(r2-1)/m;q=(r2-1)%m;
@@ -174,6 +179,7 @@ int main()
 			/*6、小分子芳香烃 C6 沉积*/
 			else if(r1<=paa+pba+pag+pad+pbg+pbd)
 			{
+				if( n3<3 ) continue;
 				do{
 					r2=rand()%(m*m)+1;
 					p=(r2-1)/m;q=(r2-1)%m;
@@ -192,6 +198,7 @@ int main()
 			/*7、线性小分子烃 C2 与周围小分子芳香烃 C6 反应*/
 			else
 			{
+				if( n2<1 || n3<3 ) continue;
 				do{
 					r2=rand()%(m*m)+1;
 					p=(r2-1)/m;q=(r2-1)%m;
@@ -278,34 +285,33 @@ int main()
 		at[n]=nat;  //at 存储小分子脱附数
 		bt[n]=nbt;  //bt 存储大分子脱附数
 
-/* /*以下分别将计算中间时刻等的表面吸附状态以 TXT 格式输出*/
-		if(n==499)
-		{
-			fp3=fopen("./500.txt","w");
-			for(i=0;i<m;i++)
-			{
-				for(j=0;j<m;j++)
-				fprintf(fp3,"%d ",sol[i][j]);
-				fprintf(fp3,"\n");
-			}
-			fclose(fp3);
-		}
-//… … */
+// /* /*以下分别将计算中间时刻等的表面吸附状态以 TXT 格式输出*/
+// 		if(n==499)
+// 		{
+// 			fp3=fopen("./500.txt","w");
+// 			for(i=0;i<m;i++)
+// 			{
+// 				for(j=0;j<m;j++)
+// 				fprintf(fp3,"%d ",sol[i][j]);
+// 				fprintf(fp3,"\n");
+// 			}
+// 			fclose(fp3);
+// 		}
+// //… … */
 	}
 
 /*以下将最终的表面吸附状态以 TXT 格式输出*/
-	printf("Empty:%d C2:%d C6:%",empty[pp-1],small[pp-1],large[pp-1]);
-/* 	//fp1=fopen("./20000.txt","w");
+	printf("Empty_NUM:%d C2_NUM:%d C6_NUM:%d",n1,n2,n3);
+ 	fp1=fopen("./20000.txt","w");
 	for(i=0;i<m;i++)
 	{
 		for(j=0;j<m;j++)
 		{
-			if(sol[i][j]==-1) 
-		//fprintf(fp1,"%d ",sol[i][j]);
-		//fprintf(fp1,"\n");
+			fprintf(fp1,"%d ",sol[i][j]);
 		}
+		fprintf(fp1,"\n");
 	}
-	//fclose(fp1); */
+	fclose(fp1);
 /*以下分别将整个模拟过程中每个 MCS 内的各反应数以 TXT 格式输出*/
 	fp2=fopen("./result.txt","w");
 	for(i=0;i<pp;i++)
