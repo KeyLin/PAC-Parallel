@@ -28,6 +28,7 @@ int surface[100][100];
 // 用于保存双分子反应时C2的坐标
 int double_react_x, double_react_y;
 
+/*
 // 用来生成C6另外两个点的匹配模式
 int C6_PATTERN[][4] = {
         {1,0,0,-1}, {1,-1,1,0}, {1,-1,0,-1},// 右上
@@ -37,6 +38,14 @@ int C6_PATTERN[][4] = {
         {0,-1,0,1}, // 竖
         {1,0,-1,0} // 横
         };
+*/
+
+// 用来生成C6另外两个点的匹配模式
+int C6_PATTERN[][4] = {
+    {0,-1,0,1},{1,0,-1,0},
+    {0,-1,1,0},{0,-1,-1,0},
+    {0,1,1,0},{0,1,-1,0}
+};
 
 // 双分子反应时用于检测C2周围有没C6
 int C2_C6_REACT_PATTERN[][2] = {
@@ -47,36 +56,48 @@ void genSurface(int C2_NUM, int C6_NUM){
     // 初始化表面矩阵
     memset(surface, 0, sizeof(int) * SIZE);
     
-    int i, x, y, p, t, j;
+    int i, x, y, p, t, j, tag;
+
+    // 是否找到标记
+    int foundTag = 0;
     // 生成C6的点
     for(i = 0; i < C6_NUM; i+=3){
         x = rand() % (WIDTH);
         y = rand() % (HEIGHT);
-        t = rand() % (100);
+        t = rand() % (SIZE);
+        foundTag = 0;
 
-        for(p = 0; p < 13; p++){
-            if(x + C6_PATTERN[p][0] < 0 ||
-                x + C6_PATTERN[p][0] >= WIDTH ||
-                y + C6_PATTERN[p][1] < 0 ||
-                y + C6_PATTERN[p][1] >= HEIGHT ||
-                x + C6_PATTERN[p][2] < 0 ||
-                x + C6_PATTERN[p][2] >= WIDTH ||
-                y + C6_PATTERN[p][3] < 0 ||
-                y + C6_PATTERN[p][3] >= HEIGHT){
-                if(!surface[x][y] &&
+        // 首先判断该点位置是否被占
+        if(surface[x][y]){
+            i -= 3;
+            continue;
+        }
+
+        // 判断周围位置是否合理或者被占
+        for(p = 0; p < 6; p++){
+            if(x + C6_PATTERN[p][0] >= 0 &&
+                x + C6_PATTERN[p][0] < WIDTH &&
+                y + C6_PATTERN[p][1] >= 0 &&
+                y + C6_PATTERN[p][1] < HEIGHT &&
+                x + C6_PATTERN[p][2] >= 0 &&
+                x + C6_PATTERN[p][2] < WIDTH &&
+                y + C6_PATTERN[p][3] >= 0 &&
+                y + C6_PATTERN[p][3] < HEIGHT &&
                 !surface[x + C6_PATTERN[p][0]][y + C6_PATTERN[p][1]] &&
                 !surface[x + C6_PATTERN[p][2]][y + C6_PATTERN[p][3]]){
-                    if(p == 12){
-                        i -= 3;
-                    }
-                }
-            }else{
+                foundTag = 1;
                 break;
             }
         }
-        surface[x + C6_PATTERN[p][2]][y + C6_PATTERN[p][3]] = t;
-        surface[x + C6_PATTERN[p][0]][y + C6_PATTERN[p][1]] = t;
-        surface[x][y] = t;
+
+        if(foundTag){
+            surface[x + C6_PATTERN[p][2]][y + C6_PATTERN[p][3]] = t;
+            surface[x + C6_PATTERN[p][0]][y + C6_PATTERN[p][1]] = t;
+            surface[x][y] = t;
+        }else{
+            i -= 3;
+        }
+
     }
     if(C2_NUM != 0){
         t = rand() % (C2_NUM);
@@ -109,7 +130,7 @@ int canC6_Adsorb(int C2_NUM, int C6_NUM){
     y = rand() % (HEIGHT);
     genSurface(C2_NUM, C6_NUM);
     
-    for(i = 0; i < 13; i++){
+    for(i = 0; i < 6; i++){
         if( (x + C6_PATTERN[i][0]) >=0 &&
             (x + C6_PATTERN[i][0]) < WIDTH &&
             (x + C6_PATTERN[i][2]) >= 0 && 
