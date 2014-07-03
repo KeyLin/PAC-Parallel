@@ -5,7 +5,7 @@
 #include <time.h>       /*使用当前时间作为随机数种子*/
 #include <math.h>
 #define MAT 50           /*方形网格行或列的网格数，代表吸附表面边长*/
-#define MC_Time 20000       /*蒙特卡罗总时间 MCS，正比于真实时间*/
+#define MC_Time 200       /*蒙特卡罗总时间 MCS，正比于真实时间*/
 #define Label_NUM MAT*MAT/3+1  //C6分子标记符
 
 int MAT_SIZE = MAT*MAT;    //矩阵大小
