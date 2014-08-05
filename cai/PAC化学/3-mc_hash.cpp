@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <memory.h>
-#include <time.h>       /*使用当前时间作为随机数种子*/
+#include <time.h>
 #include <math.h>
 #include <iostream>
 using namespace std;
