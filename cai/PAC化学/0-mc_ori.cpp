@@ -303,11 +303,11 @@ int main()
     	Rate[i] = 0.2*i;
     }
     /*开始计算反应*/
-    for(int i=0; i<5; i++)
+    for(int i=1; i<=5; i++)
     {
-    	for(int j=0; j<80; j++)
+    	for(int j=1; j<=80; j++)
     	{
-        	reaction(C2_CON[i],C2_CON[i]*Rate[j],i*j);
+        	reaction(C2_CON[i-1],C2_CON[i-1]*Rate[j-1],i*j-1);
     	}
 	}
     return 0;
